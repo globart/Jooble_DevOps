@@ -1,0 +1,25 @@
+name: check-requirements
+
+on:
+  push:
+    branches:
+      - master
+      
+jobs:
+  check-requirements:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Git clone our repo
+      uses: actions/checkout@v2
+      
+    - name: Install Python dependencies
+      uses: py-actions/py-dependency-install@v2
+      with:
+          path: "task3/requirements.txt"
+          
+    - name: Telegram notification    
+      uses: haishanh/actions-telegram-notification@v1
+      with:
+        notification-token: ${{ secrets.NOTIFICATION_TOKEN }}
+        job-status: ${{ job.status }}
